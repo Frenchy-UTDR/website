@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* ── Reset & Variables ─────────────────────────────────────────────── */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg:           #05080f;
+            --bg-panel:     #080c17;
+            --border:       #152030;
+            --border-bright:#213c5c;
+            --amber:        #ddeeff;
+            --amber-glow:   rgba(210, 230, 255, 0.12);
+            --violet:       #3a8fd4;
+            --text:         #5e8aaa;
+            --text-dim:     #3a5878;
+            --text-bright:  #ddeeff;
+            --font-ui:      "Montserrat", system-ui, sans-serif;
+        }
+
+        /* ── Scanlines overlay ─────────────────────────────────────────────── */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9999;
+            background: repeating-linear-gradient(
+                to bottom,
+                transparent 0px,
+                transparent 3px,
+                rgba(0, 0, 0, 0.06) 3px,
+                rgba(0, 0, 0, 0.06) 4px
+            );
+            mix-blend-mode: multiply;
+        }
+
+        /* ── Base ──────────────────────────────────────────────────────────── */
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            background: var(--bg);
+            background-image: radial-gradient(circle, rgba(33, 60, 92, 0.35) 1px, transparent 1px);
+            background-size: 28px 28px;
+            color: var(--text);
+            font-family: var(--font-ui);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ── Corner decorations ────────────────────────────────────────────── */
+        .corner {
+            position: fixed;
+            width: 24px;
+            height: 24px;
+        }
+        .corner-tl { top: 20px; left: 20px;
+            border-top: 1px solid var(--border-bright);
+            border-left: 1px solid var(--border-bright); }
+        .corner-tr { top: 20px; right: 20px;
+            border-top: 1px solid var(--border-bright);
+            border-right: 1px solid var(--border-bright); }
+        .corner-bl { bottom: 20px; left: 20px;
+            border-bottom: 1px solid var(--border-bright);
+            border-left: 1px solid var(--border-bright); }
+        .corner-br { bottom: 20px; right: 20px;
+            border-bottom: 1px solid var(--border-bright);
+            border-right: 1px solid var(--border-bright); }
+
+        /* ── Main content ──────────────────────────────────────────────────── */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            text-align: center;
+        }
+
+        .label {
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+        }
+
+        .separator {
+            width: 120px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--border-bright), transparent);
+        }
+
+        h1 {
+            font-size: clamp(2rem, 8vw, 4.5rem);
+            font-weight: 700;
+            letter-spacing: 14px;
+            text-transform: uppercase;
+            color: var(--amber);
+            animation: glow 4s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 30px rgba(210,230,255,0.3), 0 0 80px rgba(210,230,255,0.1); }
+            50%       { text-shadow: 0 0 60px rgba(210,230,255,0.6), 0 0 120px rgba(210,230,255,0.2); }
+        }
+
+        .sub {
+            font-size: 0.62rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            animation: blink 3.5s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 85%, 100% { opacity: 0.7; }
+            92%            { opacity: 0.15; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-tr"></div>
+    <div class="corner corner-bl"></div>
+    <div class="corner corner-br"></div>
+
+    <div class="container">
+        <span class="label">Système initialisé</span>
+        <div class="separator"></div>
+        <h1>Hello World</h1>
+        <div class="separator"></div>
+        <span class="sub">En attente d'instructions…</span>
+    </div>
+
+</body>
+</html>
