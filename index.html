@@ -1,35 +1,25 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>baguette</title>
+    <title>Home</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* ── Reset & Variables ─────────────────────────────────────────────── */
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
-            --bg:           #05080f;
-            --bg-panel:     #080c17;
-            --border:       #152030;
-            --border-bright:#213c5c;
-            --amber:        #ddeeff;
-            --amber-glow:   rgba(210, 230, 255, 0.12);
-            --violet:       #3a8fd4;
-            --text:         #5e8aaa;
-            --text-dim:     #3a5878;
-            --text-bright:  #ddeeff;
-            --font-ui:      "Montserrat", system-ui, sans-serif;
+            --bg:            #05080f;
+            --border-bright: #213c5c;
+            --amber:         #ddeeff;
+            --violet:        #3a8fd4;
+            --text:          #5e8aaa;
+            --text-dim:      #3a5878;
+            --font-ui:       "Montserrat", system-ui, sans-serif;
         }
 
-        /* ── Scanlines overlay ─────────────────────────────────────────────── */
         body::before {
             content: "";
             position: fixed;
@@ -38,20 +28,17 @@
             z-index: 9999;
             background: repeating-linear-gradient(
                 to bottom,
-                transparent 0px,
-                transparent 3px,
-                rgba(0, 0, 0, 0.06) 3px,
-                rgba(0, 0, 0, 0.06) 4px
+                transparent 0px, transparent 3px,
+                rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 4px
             );
             mix-blend-mode: multiply;
         }
 
-        /* ── Base ──────────────────────────────────────────────────────────── */
         html, body {
             height: 100%;
             overflow: hidden;
             background: var(--bg);
-            background-image: radial-gradient(circle, rgba(33, 60, 92, 0.35) 1px, transparent 1px);
+            background-image: radial-gradient(circle, rgba(33,60,92,0.35) 1px, transparent 1px);
             background-size: 28px 28px;
             color: var(--text);
             font-family: var(--font-ui);
@@ -60,32 +47,20 @@
             justify-content: center;
         }
 
-        /* ── Corner decorations ────────────────────────────────────────────── */
-        .corner {
-            position: fixed;
-            width: 24px;
-            height: 24px;
-        }
-        .corner-tl { top: 20px; left: 20px;
-            border-top: 1px solid var(--border-bright);
-            border-left: 1px solid var(--border-bright); }
-        .corner-tr { top: 20px; right: 20px;
-            border-top: 1px solid var(--border-bright);
-            border-right: 1px solid var(--border-bright); }
-        .corner-bl { bottom: 20px; left: 20px;
-            border-bottom: 1px solid var(--border-bright);
-            border-left: 1px solid var(--border-bright); }
-        .corner-br { bottom: 20px; right: 20px;
-            border-bottom: 1px solid var(--border-bright);
-            border-right: 1px solid var(--border-bright); }
+        .corner { position: fixed; width: 24px; height: 24px; }
+        .corner-tl { top: 20px; left: 20px; border-top: 1px solid var(--border-bright); border-left: 1px solid var(--border-bright); }
+        .corner-tr { top: 20px; right: 20px; border-top: 1px solid var(--border-bright); border-right: 1px solid var(--border-bright); }
+        .corner-bl { bottom: 20px; left: 20px; border-bottom: 1px solid var(--border-bright); border-left: 1px solid var(--border-bright); }
+        .corner-br { bottom: 20px; right: 20px; border-bottom: 1px solid var(--border-bright); border-right: 1px solid var(--border-bright); }
 
-        /* ── Main content ──────────────────────────────────────────────────── */
         .container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
+            gap: 22px;
             text-align: center;
+            max-width: 640px;
+            padding: 0 24px;
         }
 
         .label {
@@ -103,9 +78,9 @@
         }
 
         h1 {
-            font-size: clamp(2rem, 8vw, 4.5rem);
+            font-size: clamp(2.2rem, 8vw, 4.5rem);
             font-weight: 700;
-            letter-spacing: 14px;
+            letter-spacing: 10px;
             text-transform: uppercase;
             color: var(--amber);
             animation: glow 4s ease-in-out infinite;
@@ -116,21 +91,148 @@
             50%       { text-shadow: 0 0 60px rgba(210,230,255,0.6), 0 0 120px rgba(210,230,255,0.2); }
         }
 
-        .sub {
-            font-size: 0.62rem;
+        .body-text {
+            font-size: 0.82rem;
+            line-height: 1.9;
+            color: var(--text);
+            letter-spacing: 1px;
+        }
+
+        .body-text .accent {
+            color: var(--violet);
+            font-weight: 700;
+        }
+
+        .body-text.small {
+            font-size: 0.72rem;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+        }
+
+        .scroll-hint {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            margin-top: 8px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .scroll-arrow { font-size: 1.1rem; color: var(--violet); opacity: 0.8; }
+        .scroll-label { font-size: 0.55rem; letter-spacing: 4px; text-transform: uppercase; color: var(--text-dim); }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(6px); }
+        }
+
+        /* ── Nav ──────────────────────────────────────────────────────────── */
+
+        /* Wrapper qui descend d'un bloc quand ouvert */
+        #nav-wrap {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Panel qui se cache / apparaît */
+        #nav-panel {
+            background: #080c17;
+            border: 1px solid var(--border-bright);
+            border-top: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 16px;
+            white-space: nowrap;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.3s cubic-bezier(0.22,1,0.36,1),
+                        opacity 0.25s ease,
+                        padding 0.3s ease;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        #nav-panel.open {
+            max-height: 80px;
+            opacity: 1;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        /* Languette toggle */
+        #nav-toggle {
+            background: #080c17;
+            border: 1px solid var(--border-bright);
+            border-top: none;
+            padding: 5px 20px 7px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-ui);
+            font-size: 0.55rem;
+            font-weight: 700;
             letter-spacing: 4px;
             text-transform: uppercase;
             color: var(--text-dim);
-            animation: blink 3.5s ease-in-out infinite;
+            transition: color 0.15s, border-color 0.15s;
+            user-select: none;
         }
+        #nav-toggle:hover { color: var(--amber); border-color: var(--amber); }
+        #nav-toggle .arrow {
+            font-size: 0.6rem;
+            transition: transform 0.25s ease;
+            color: var(--violet);
+        }
+        #nav-toggle.open .arrow { transform: rotate(180deg); }
 
-        @keyframes blink {
-            0%, 85%, 100% { opacity: 0.7; }
-            92%            { opacity: 0.15; }
+        /* Liens */
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 5px 12px;
+            font-family: var(--font-ui);
+            font-size: 0.56rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            text-decoration: none;
+            border: 1px solid var(--border-bright);
+            transition: color 0.15s, background 0.15s, border-color 0.15s;
+            white-space: nowrap;
+        }
+        .nav-link:hover { color: var(--amber); background: rgba(210,230,255,0.04); border-color: var(--amber); }
+        .nav-link.active { color: var(--amber); border-color: var(--amber); }
+        .nav-link .dot {
+            width: 4px; height: 4px;
+            border-radius: 50%;
+            background: var(--violet);
+            margin-right: 8px;
+            opacity: 0.7;
         }
     </style>
 </head>
 <body>
+
+    <!-- Nav wrapper centré -->
+    <div id="nav-wrap">
+        <nav id="nav-panel">
+            <a class="nav-link active" href="index.html"><span class="dot"></span>HOME</a>
+            <a class="nav-link" href="game.html"><span class="dot"></span>NAVI V1.3</a>
+            <!-- ajoute tes pages ici -->
+        </nav>
+        <button id="nav-toggle" onclick="toggleNav()">
+            MENU <span class="arrow">&#9660;</span>
+        </button>
+    </div>
 
     <div class="corner corner-tl"></div>
     <div class="corner corner-tr"></div>
@@ -138,12 +240,31 @@
     <div class="corner corner-br"></div>
 
     <div class="container">
-        <span class="label">Système initialisé</span>
+        <span class="label">Welcome</span>
         <div class="separator"></div>
-        <h1>Hello World</h1>
+        <h1>Heyllo.</h1>
         <div class="separator"></div>
-        <span class="sub">En attente d'instructions…</span>
+        <p class="body-text">
+            Welcome to my super website.<br>
+            I hope you like it — I don't have the money to run a real website<br>
+            so this is just a GitHub website, because <span class="accent">free is good</span>.
+        </p>
+        <p class="body-text small">
+            btw if you want to see my work you can go down here, see you soon &nbsp;>:)
+        </p>
+        <div class="scroll-hint">
+            <span class="scroll-arrow">↓</span>
+            <span class="scroll-label">scroll down</span>
+        </div>
     </div>
 
+    <script>
+        function toggleNav() {
+            const panel  = document.getElementById('nav-panel');
+            const toggle = document.getElementById('nav-toggle');
+            const isOpen = panel.classList.toggle('open');
+            toggle.classList.toggle('open', isOpen);
+        }
+    </script>
 </body>
 </html>
