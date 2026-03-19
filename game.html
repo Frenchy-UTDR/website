@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game — My Website</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg:            #05080f;
+            --bg-panel:      #080c17;
+            --bg-card:       #0c1120;
+            --border:        #152030;
+            --border-bright: #213c5c;
+            --amber:         #ddeeff;
+            --amber-glow:    rgba(210,230,255,0.12);
+            --violet:        #3a8fd4;
+            --green:         #44d68a;
+            --red:           #e05968;
+            --text:          #5e8aaa;
+            --text-dim:      #3a5878;
+            --text-bright:   #ddeeff;
+            --font-ui:       "Montserrat", system-ui, sans-serif;
+        }
+
+        /* Scanlines */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9999;
+            background: repeating-linear-gradient(
+                to bottom,
+                transparent 0px, transparent 3px,
+                rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 4px
+            );
+            mix-blend-mode: multiply;
+        }
+
+        html, body {
+            min-height: 100%;
+            background: var(--bg);
+            background-image: radial-gradient(circle, rgba(33,60,92,0.35) 1px, transparent 1px);
+            background-size: 28px 28px;
+            color: var(--text);
+            font-family: var(--font-ui);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 2px; }
+
+        /* ── Nav (identique à index.html) ─────────────────────────────────── */
+        #nav-wrap {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #nav-panel {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-bright);
+            border-top: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 16px;
+            white-space: nowrap;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.3s cubic-bezier(0.22,1,0.36,1), opacity 0.25s ease, padding 0.3s ease;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        #nav-panel.open { max-height: 80px; opacity: 1; padding-top: 10px; padding-bottom: 10px; }
+        #nav-toggle {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-bright);
+            border-top: none;
+            padding: 5px 20px 7px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-ui);
+            font-size: 0.55rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            transition: color 0.15s, border-color 0.15s;
+            user-select: none;
+        }
+        #nav-toggle:hover { color: var(--amber); border-color: var(--amber); }
+        #nav-toggle .arrow { font-size: 0.6rem; transition: transform 0.25s ease; color: var(--violet); }
+        #nav-toggle.open .arrow { transform: rotate(180deg); }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 5px 12px;
+            font-family: var(--font-ui);
+            font-size: 0.56rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            text-decoration: none;
+            border: 1px solid var(--border-bright);
+            transition: color 0.15s, background 0.15s, border-color 0.15s;
+        }
+        .nav-link:hover { color: var(--amber); background: rgba(210,230,255,0.04); border-color: var(--amber); }
+        .nav-link.active { color: var(--amber); border-color: var(--amber); }
+        .nav-link .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--violet); margin-right: 8px; opacity: 0.7; }
+
+        /* ── Page layout ──────────────────────────────────────────────────── */
+        .page {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 80px 24px 80px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* ── BLOCS ────────────────────────────────────────────────────────── */
+
+        /* Section separator */
+        .section-label {
+            font-size: 0.58rem;
+            font-weight: 700;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-label::before {
+            content: "";
+            width: 6px; height: 6px;
+            border: 1px solid var(--violet);
+            transform: rotate(45deg);
+            flex-shrink: 0;
+        }
+
+        /* ── BLOC 1 : Hero ────────────────────────────────────────────────── */
+        .block-hero {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 36px 32px;
+            border: 1px solid var(--border-bright);
+            background: var(--bg-card);
+            position: relative;
+            overflow: hidden;
+        }
+        .block-hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at top right, rgba(58,143,212,0.07), transparent 65%);
+            pointer-events: none;
+        }
+        .game-tag {
+            font-size: 0.55rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--violet);
+            border: 1px solid var(--violet);
+            padding: 3px 10px;
+            opacity: 0.8;
+        }
+        .game-title {
+            font-size: clamp(2rem, 6vw, 3.8rem);
+            font-weight: 700;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            color: var(--amber);
+            line-height: 1;
+            animation: glow 4s ease-in-out infinite;
+        }
+        @keyframes glow {
+            0%,100% { text-shadow: 0 0 30px rgba(210,230,255,0.2); }
+            50%      { text-shadow: 0 0 60px rgba(210,230,255,0.5); }
+        }
+        .game-subtitle {
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            color: var(--text);
+            text-transform: uppercase;
+        }
+        /*
+
+        /* ── BLOC 2 : Description ─────────────────────────────────────────── */
+        .block-desc {
+            padding: 24px 28px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            font-size: 0.82rem;
+            line-height: 1.95;
+            color: var(--text);
+            letter-spacing: 0.5px;
+        }
+        .block-desc .highlight {
+            color: var(--amber);
+            font-weight: 700;
+        }
+        /*
+
+        /* ── BLOC 3 : Screenshots / images ───────────────────────────────── */
+        .block-screenshots {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 10px;
+        }
+        .screenshot-slot {
+            aspect-ratio: 16/9;
+            border: 1px solid var(--border-bright);
+            background: var(--bg-card);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 8px;
+            color: var(--text-dim);
+            font-size: 0.55rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: default;
+            transition: border-color 0.15s;
+            overflow: hidden;
+            position: relative;
+        }
+        .screenshot-slot:hover { border-color: var(--violet); }
+        .screenshot-slot img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .screenshot-slot img.loaded { opacity: 1; }
+        .screenshot-slot .placeholder-icon { font-size: 1.4rem; opacity: 0.25; }
+        /*<img src="ton-image.png"> dans chaque .screenshot-slot */
+
+        /* ── BLOC 4 : Tags / infos rapides ───────────────────────────────── */
+        .block-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 18px 24px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+        }
+        .tag {
+            font-size: 0.55rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            padding: 4px 12px;
+            border: 1px solid var(--border-bright);
+            color: var(--text-dim);
+            transition: color 0.15s, border-color 0.15s;
+        }
+        .tag:hover { color: var(--amber); border-color: var(--amber); }
+        .tag.green { color: var(--green); border-color: rgba(68,214,138,0.35); }
+        .tag.violet { color: var(--violet); border-color: rgba(58,143,212,0.35); }
+        /*
+
+        /* ── BLOC 5 : Features ───────────────────────────────────────────── */
+        .block-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 10px;
+        }
+        .feature-card {
+            padding: 18px 20px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: border-color 0.15s;
+        }
+        .feature-card:hover { border-color: var(--border-bright); }
+        .feature-icon { font-size: 1.3rem; }
+        .feature-title {
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-bright);
+        }
+        .feature-desc {
+            font-size: 0.72rem;
+            line-height: 1.7;
+            color: var(--text);
+        }
+        /*
+
+        /* ── BLOC 6 : Call to action ─────────────────────────────────────── */
+        .block-cta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 22px 28px;
+            border: 1px solid var(--border-bright);
+            background: var(--bg-card);
+            flex-wrap: wrap;
+        }
+        .cta-text {
+            flex: 1;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text);
+            min-width: 200px;
+        }
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 24px;
+            background: transparent;
+            border: 1px solid var(--violet);
+            color: var(--violet);
+            font-family: var(--font-ui);
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.15s, box-shadow 0.15s;
+        }
+        .cta-btn:hover {
+            background: rgba(58,143,212,0.1);
+            box-shadow: 0 0 20px rgba(58,143,212,0.25);
+        }
+        /*
+
+    </style>
+</head>
+<body>
+
+    <!-- ── Nav ────────────────────────────────────── -->
+    <div id="nav-wrap">
+        <nav id="nav-panel">
+            <a class="nav-link" href="index.html"><span class="dot"></span>HOME</a>
+            <a class="nav-link active" href="game.html"><span class="dot"></span>NAVI V1.3</a>
+        </nav>
+        <button id="nav-toggle" onclick="toggleNav()">
+            MENU <span class="arrow">&#9660;</span>
+        </button>
+    </div>
+
+    <main class="page">
+
+        <!-- ── BLOC 1 : Hero ──────────────────────────────────────────────
+            
+        <div class="block-hero">
+            <span class="game-tag">Game genre</span>
+            <h1 class="game-title">GAME NAME</h1>
+            <p class="game-subtitle">Short game tagline</p>
+        </div>
+
+        <!-- ── BLOC 2 : Description ───────────────────────────────────────
+            
+        <span class="section-label">Description</span>
+        <div class="block-desc">
+           <span class="highlight">Present your game here.</span> Tell the story, the concept,
+            what makes it unique. You can write as much text as you want, and add
+            <span class="highlight">highlighted words</span> for the important points.
+        </div>
+
+        <!-- ── BLOC 3 : Screenshots ───────────────────────────────────────
+            "" dans chaque slot     -->
+        <span class="section-label">Screenshots</span>
+        <div class="block-screenshots">
+            <div class="screenshot-slot">
+                <span class="placeholder-icon">🖼</span>
+                <span>screenshot 1</span>
+            </div>
+            <div class="screenshot-slot">
+                <span class="placeholder-icon">🖼</span>
+                <span>screenshot 2</span>
+            </div>
+            <div class="screenshot-slot">
+                <span class="placeholder-icon">🖼</span>
+                <span>screenshot 3</span>
+            </div>
+        </div>
+
+        <!-- ── BLOC 4 : Tags infos rapides ────────────────────────────────
+            
+        <span class="section-label">Info</span>
+        <div class="block-tags">
+            <span class="tag violet">Platform</span>
+            <span class="tag">Engine</span>
+            <span class="tag">Solo / Multi</span>
+            <span class="tag green">Status</span>
+            <span class="tag">Duration</span>
+            <span class="tag">Year</span>
+        </div>
+
+        <!-- ── BLOC 5 : Features ──────────────────────────────────────────
+            
+        <span class="section-label">Features</span>
+        <div class="block-features">
+            <div class="feature-card">
+                <span class="feature-icon">🎮</span>
+                <span class="feature-title">Feature 1</span>
+                <p class="feature-desc">Short description of this feature.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">⚔️</span>
+                <span class="feature-title">Feature 2</span>
+                <p class="feature-desc">Short description of this feature.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🗺️</span>
+                <span class="feature-title">Feature 3</span>
+                <p class="feature-desc">Short description of this feature.</p>
+            </div>
+        </div>
+
+        <!-- ── BLOC 6 : Itch.io ───────────────────────────────────────── -->
+        <span class="section-label">Play</span>
+        <div class="block-cta">
+            <iframe frameborder="0" src="https://itch.io/embed/4384640?bg_color=000000&amp;fg_color=ffffff&amp;link_color=000d97" width="552" height="167">
+                <a href="https://frenchy-utdr.itch.io/navi">NAVI V1.3 (First BIG Update in BETA) by Frenchy_UTDR</a>
+            </iframe>
+        </div>
+
+    </main>
+
+    <script>
+        function toggleNav() {
+            const panel  = document.getElementById('nav-panel');
+            const toggle = document.getElementById('nav-toggle');
+            const isOpen = panel.classList.toggle('open');
+            toggle.classList.toggle('open', isOpen);
+        }
+    </script>
+</body>
+</html>
