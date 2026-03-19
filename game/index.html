@@ -1,9 +1,6 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <a class="nav-link" href="../index.html"><span class="dot"></span>HOME</a>        
-        <a class="nav-link" href="../game_page.html"><span class="dot"></span>NAVI V1.3</a>
-        <a class="nav-link active" href="index.html"><span class="dot"></span>NOM DE LA PAGE</a>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>NAVI</title>
@@ -14,6 +11,55 @@
             rel="stylesheet"
         />
         <link rel="stylesheet" href="style.css" />
+        <style>
+            #menu-nav {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 10;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 14px 24px;
+                border-bottom: 1px solid rgba(58,143,212,0.12);
+                background: rgba(5,8,15,0.55);
+                backdrop-filter: blur(6px);
+            }
+            .nav-link {
+                display: flex;
+                align-items: center;
+                gap: 7px;
+                font-family: var(--font-mono, 'JetBrains Mono', monospace);
+                font-size: 0.7rem;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                text-decoration: none;
+                color: rgba(94,138,170,0.7);
+                padding: 5px 10px;
+                border: 1px solid transparent;
+                border-radius: 3px;
+                transition: color 0.2s, border-color 0.2s, background 0.2s;
+            }
+            .nav-link:hover {
+                color: #3a8fd4;
+                border-color: rgba(58,143,212,0.35);
+                background: rgba(58,143,212,0.07);
+            }
+            .nav-link.active {
+                color: #44d68a;
+                border-color: rgba(68,214,138,0.35);
+                background: rgba(68,214,138,0.07);
+            }
+            .nav-link .dot {
+                width: 5px;
+                height: 5px;
+                border-radius: 50%;
+                background: currentColor;
+                flex-shrink: 0;
+                opacity: 0.8;
+            }
+        </style>
     </head>
     <body>
         <header id="topbar">
@@ -985,6 +1031,11 @@
 
     <!-- ══ MAIN MENU ═══════════════════════════════════════════════════════ -->
     <div id="main-menu">
+        <nav id="menu-nav">
+            <a class="nav-link" href="../index.html"><span class="dot"></span>HOME</a>
+            <a class="nav-link" href="../game_page.html"><span class="dot"></span>NAVI V1.3</a>
+            <a class="nav-link active" href="index.html"><span class="dot"></span>NAVI - PLAY IN BROWSER</a>
+        </nav>
         <canvas id="menu-canvas"></canvas>
         <div id="menu-content">
             <div id="menu-logo">
