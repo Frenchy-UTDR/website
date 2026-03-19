@@ -12,53 +12,77 @@
         />
         <link rel="stylesheet" href="style.css" />
         <style>
-            #menu-nav {
+            /* ── Dropdown nav — visible only inside #main-menu ──────────── */
+            #menu-nav-wrap {
                 position: absolute;
                 top: 0;
-                left: 0;
-                right: 0;
+                left: 50%;
+                transform: translateX(-50%);
                 z-index: 10;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            #menu-nav-panel {
+                background: #080c17;
+                border: 1px solid #213c5c;
+                border-top: none;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                padding: 10px 16px;
+                white-space: nowrap;
+                max-height: 0;
+                overflow: hidden;
+                opacity: 0;
+                transition: max-height 0.3s cubic-bezier(0.22,1,0.36,1), opacity 0.25s ease, padding 0.3s ease;
+                padding-top: 0;
+                padding-bottom: 0;
+            }
+            #menu-nav-panel.open {
+                max-height: 80px;
+                opacity: 1;
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+            #menu-nav-toggle {
+                background: #080c17;
+                border: 1px solid #213c5c;
+                border-top: none;
+                padding: 5px 20px 7px;
+                cursor: pointer;
                 display: flex;
                 align-items: center;
                 gap: 8px;
-                padding: 14px 24px;
-                border-bottom: 1px solid rgba(58,143,212,0.12);
-                background: rgba(5,8,15,0.55);
-                backdrop-filter: blur(6px);
+                font-family: "Montserrat", system-ui, sans-serif;
+                font-size: 0.55rem;
+                font-weight: 700;
+                letter-spacing: 4px;
+                text-transform: uppercase;
+                color: #3a5878;
+                transition: color 0.15s, border-color 0.15s;
+                user-select: none;
             }
-            .nav-link {
+            #menu-nav-toggle:hover { color: #ddeeff; border-color: #ddeeff; }
+            #menu-nav-toggle .arrow { font-size: 0.6rem; transition: transform 0.25s ease; color: #3a8fd4; }
+            #menu-nav-toggle.open .arrow { transform: rotate(180deg); }
+            #menu-nav-panel .nav-link {
                 display: flex;
                 align-items: center;
-                gap: 7px;
-                font-family: var(--font-mono, 'JetBrains Mono', monospace);
-                font-size: 0.7rem;
-                letter-spacing: 0.08em;
+                padding: 5px 12px;
+                font-family: "Montserrat", system-ui, sans-serif;
+                font-size: 0.56rem;
+                font-weight: 700;
+                letter-spacing: 2px;
                 text-transform: uppercase;
+                color: #3a5878;
                 text-decoration: none;
-                color: rgba(94,138,170,0.7);
-                padding: 5px 10px;
-                border: 1px solid transparent;
-                border-radius: 3px;
-                transition: color 0.2s, border-color 0.2s, background 0.2s;
+                border: 1px solid #213c5c;
+                transition: color 0.15s, background 0.15s, border-color 0.15s;
             }
-            .nav-link:hover {
-                color: #3a8fd4;
-                border-color: rgba(58,143,212,0.35);
-                background: rgba(58,143,212,0.07);
-            }
-            .nav-link.active {
-                color: #44d68a;
-                border-color: rgba(68,214,138,0.35);
-                background: rgba(68,214,138,0.07);
-            }
-            .nav-link .dot {
-                width: 5px;
-                height: 5px;
-                border-radius: 50%;
-                background: currentColor;
-                flex-shrink: 0;
-                opacity: 0.8;
-            }
+            #menu-nav-panel .nav-link:hover { color: #ddeeff; background: rgba(210,230,255,0.04); border-color: #ddeeff; }
+            #menu-nav-panel .nav-link.active { color: #ddeeff; border-color: #ddeeff; }
+            #menu-nav-panel .nav-link .dot { width: 4px; height: 4px; border-radius: 50%; background: #3a8fd4; margin-right: 8px; opacity: 0.7; }
         </style>
     </head>
     <body>
@@ -1031,11 +1055,16 @@
 
     <!-- ══ MAIN MENU ═══════════════════════════════════════════════════════ -->
     <div id="main-menu">
-        <nav id="menu-nav">
-            <a class="nav-link" href="../index.html"><span class="dot"></span>HOME</a>
-            <a class="nav-link" href="../game_page.html"><span class="dot"></span>NAVI V1.3</a>
-            <a class="nav-link active" href="index.html"><span class="dot"></span>NAVI - PLAY IN BROWSER</a>
-        </nav>
+        <div id="menu-nav-wrap">
+            <nav id="menu-nav-panel">
+                <a class="nav-link" href="../index.html"><span class="dot"></span>HOME</a>
+                <a class="nav-link" href="../game_page.html"><span class="dot"></span>NAVI V1.3</a>
+                <a class="nav-link active" href="index.html"><span class="dot"></span>NAVI - PLAY IN BROWSER</a>
+            </nav>
+            <button id="menu-nav-toggle" onclick="toggleMenuNav()">
+                MENU <span class="arrow">&#9660;</span>
+            </button>
+        </div>
         <canvas id="menu-canvas"></canvas>
         <div id="menu-content">
             <div id="menu-logo">
@@ -1072,5 +1101,13 @@
     </div>
 
     <script src="game.js"></script>
+    <script>
+        function toggleMenuNav() {
+            const panel  = document.getElementById('menu-nav-panel');
+            const toggle = document.getElementById('menu-nav-toggle');
+            const isOpen = panel.classList.toggle('open');
+            toggle.classList.toggle('open', isOpen);
+        }
+    </script>
     </body>
 </html>
