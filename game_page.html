@@ -306,11 +306,67 @@
         .block-cta {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 16px;
             padding: 22px 28px;
             border: 1px solid var(--border-bright);
             background: var(--bg-card);
             flex-wrap: wrap;
+        }
+
+        /* ── Play in browser button ───────────────────────────────────────── */
+        .btn-play-browser {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0 22px;
+            border: 1px solid var(--green);
+            background: rgba(68,214,138,0.05);
+            color: var(--green);
+            text-decoration: none;
+            font-family: var(--font-ui);
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            height: 167px;
+            width: 160px;
+            flex-shrink: 0;
+            transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .btn-play-browser::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, rgba(68,214,138,0.10), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .btn-play-browser:hover {
+            background: rgba(68,214,138,0.10);
+            box-shadow: 0 0 28px rgba(68,214,138,0.18), inset 0 0 20px rgba(68,214,138,0.05);
+            transform: translateY(-1px);
+        }
+        .btn-play-browser:hover::before { opacity: 1; }
+        .btn-play-browser .play-icon {
+            font-size: 1.6rem;
+            line-height: 1;
+            filter: drop-shadow(0 0 8px rgba(68,214,138,0.5));
+        }
+        .btn-play-browser .play-label {
+            text-align: center;
+            line-height: 1.6;
+        }
+        .btn-play-browser .play-sub {
+            font-size: 0.45rem;
+            letter-spacing: 1.5px;
+            color: rgba(68,214,138,0.55);
+            font-weight: 400;
+            text-align: center;
         }
 
         /* ── Lightbox ────────────────────────────────────────────────────── */
@@ -399,8 +455,9 @@
 
     <div id="nav-wrap">
         <nav id="nav-panel">
-            <a class="nav-link" href="index.html"><span class="dot"></span>HOME</a>
+            <a class="nav-link" href="../index.html"><span class="dot"></span>HOME</a>
             <a class="nav-link active" href="game_page.html"><span class="dot"></span>NAVI V1.3</a>
+            <a class="nav-link" href="index.html"><span class="dot"></span>NAVI - PLAY IN BROWSER</a>
         </nav>
         <button id="nav-toggle" onclick="toggleNav()">
             MENU <span class="arrow">&#9660;</span>
@@ -497,6 +554,11 @@
             <iframe frameborder="0" src="https://itch.io/embed/4384640?bg_color=000000&amp;fg_color=ffffff&amp;link_color=000d97" width="552" height="167">
                 <a href="https://frenchy-utdr.itch.io/navi">NAVI V1.3 (First BIG Update in BETA) by Frenchy_UTDR</a>
             </iframe>
+            <a class="btn-play-browser" href="index.html">
+                <span class="play-icon">▶</span>
+                <span class="play-label">PLAY IN<br>BROWSER</span>
+                <span class="play-sub">NO DOWNLOAD REQUIRED</span>
+            </a>
         </div>
 
     </main>
