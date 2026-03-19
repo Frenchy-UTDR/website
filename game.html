@@ -27,7 +27,6 @@
             --font-ui:       "Montserrat", system-ui, sans-serif;
         }
 
-        /* Scanlines */
         body::before {
             content: "";
             position: fixed;
@@ -51,12 +50,11 @@
             font-family: var(--font-ui);
         }
 
-        /* Scrollbar */
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 2px; }
 
-        /* ── Nav (identique à index.html) ─────────────────────────────────── */
+        /* ── Nav ─────────────────────────────────────────────────────────── */
         #nav-wrap {
             position: fixed;
             top: 0;
@@ -123,7 +121,7 @@
         .nav-link.active { color: var(--amber); border-color: var(--amber); }
         .nav-link .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--violet); margin-right: 8px; opacity: 0.7; }
 
-        /* ── Page layout ──────────────────────────────────────────────────── */
+        /* ── Layout ──────────────────────────────────────────────────────── */
         .page {
             max-width: 860px;
             margin: 0 auto;
@@ -133,9 +131,6 @@
             gap: 20px;
         }
 
-        /* ── BLOCS ────────────────────────────────────────────────────────── */
-
-        /* Section separator */
         .section-label {
             font-size: 0.58rem;
             font-weight: 700;
@@ -156,7 +151,7 @@
             flex-shrink: 0;
         }
 
-        /* ── BLOC 1 : Hero ────────────────────────────────────────────────── */
+        /* ── Hero ────────────────────────────────────────────────────────── */
         .block-hero {
             display: flex;
             flex-direction: column;
@@ -204,9 +199,8 @@
             color: var(--text);
             text-transform: uppercase;
         }
-        /*
 
-        /* ── BLOC 2 : Description ─────────────────────────────────────────── */
+        /* ── Description ─────────────────────────────────────────────────── */
         .block-desc {
             padding: 24px 28px;
             border: 1px solid var(--border);
@@ -220,9 +214,8 @@
             color: var(--amber);
             font-weight: 700;
         }
-        /*
 
-        /* ── BLOC 3 : Screenshots / images ───────────────────────────────── */
+        /* ── Screenshots ─────────────────────────────────────────────────── */
         .block-screenshots {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -232,19 +225,9 @@
             aspect-ratio: 16/9;
             border: 1px solid var(--border-bright);
             background: var(--bg-card);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            gap: 8px;
-            color: var(--text-dim);
-            font-size: 0.55rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            cursor: default;
-            transition: border-color 0.15s;
             overflow: hidden;
             position: relative;
+            transition: border-color 0.15s;
         }
         .screenshot-slot:hover { border-color: var(--violet); }
         .screenshot-slot img {
@@ -253,14 +236,9 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0;
-            transition: opacity 0.3s;
         }
-        .screenshot-slot img.loaded { opacity: 1; }
-        .screenshot-slot .placeholder-icon { font-size: 1.4rem; opacity: 0.25; }
-        /*<img src="ton-image.png"> dans chaque .screenshot-slot */
 
-        /* ── BLOC 4 : Tags / infos rapides ───────────────────────────────── */
+        /* ── Tags ────────────────────────────────────────────────────────── */
         .block-tags {
             display: flex;
             flex-wrap: wrap;
@@ -282,9 +260,8 @@
         .tag:hover { color: var(--amber); border-color: var(--amber); }
         .tag.green { color: var(--green); border-color: rgba(68,214,138,0.35); }
         .tag.violet { color: var(--violet); border-color: rgba(58,143,212,0.35); }
-        /*
 
-        /* ── BLOC 5 : Features ───────────────────────────────────────────── */
+        /* ── Features ────────────────────────────────────────────────────── */
         .block-features {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -313,9 +290,8 @@
             line-height: 1.7;
             color: var(--text);
         }
-        /*
 
-        /* ── BLOC 6 : Call to action ─────────────────────────────────────── */
+        /* ── CTA ─────────────────────────────────────────────────────────── */
         .block-cta {
             display: flex;
             align-items: center;
@@ -325,42 +301,10 @@
             background: var(--bg-card);
             flex-wrap: wrap;
         }
-        .cta-text {
-            flex: 1;
-            font-size: 0.75rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--text);
-            min-width: 200px;
-        }
-        .cta-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 24px;
-            background: transparent;
-            border: 1px solid var(--violet);
-            color: var(--violet);
-            font-family: var(--font-ui);
-            font-size: 0.65rem;
-            font-weight: 700;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            text-decoration: none;
-            cursor: pointer;
-            transition: background 0.15s, box-shadow 0.15s;
-        }
-        .cta-btn:hover {
-            background: rgba(58,143,212,0.1);
-            box-shadow: 0 0 20px rgba(58,143,212,0.25);
-        }
-        /*
-
     </style>
 </head>
 <body>
 
-    <!-- ── Nav ────────────────────────────────────── -->
     <div id="nav-wrap">
         <nav id="nav-panel">
             <a class="nav-link" href="index.html"><span class="dot"></span>HOME</a>
@@ -373,59 +317,46 @@
 
     <main class="page">
 
-        <!-- ── BLOC 1 : Hero ──────────────────────────────────────────────-->
-            
+        <!-- Hero -->
         <div class="block-hero">
-            <span class="game-tag">incremental</span>
+            <span class="game-tag">Incremental</span>
             <h1 class="game-title">NAVI V1.3</h1>
-            <p class="game-subtitle">an incremental game, a bit like cookie clicker and Universal Paperclip</p>
+            <p class="game-subtitle">An incremental game — a bit like Cookie Clicker and Universal Paperclip</p>
         </div>
 
-        <!-- ── BLOC 2 : Description ───────────────────────────────────────-->
-            
+        <!-- Description -->
         <span class="section-label">Description</span>
         <div class="block-desc">
-            (sorry if the page look bad its my first one + the game look better i swear)
-
-
-
-You're an AI waking up with one instruction: generate operations. No context, no clear goal. Just process. From there you build, workers, hardware, a crypto market, a tech tree, slowly automating everything until you can trigger the Singularity and reset with a permanent multiplier.
-
-The gameplay loop is straightforward. Click to generate OPS, sell them for Credits, spend Credits on hardware that generates more Credits passively. Workers handle the OPS side automatically. An electricity system keeps things tense, let it run out and everything stops cold.
-
-As you scale up, a crypto exchange unlocks with live price simulation. Random events shake things up. A tech tree and one-shot projects give you meaningful choices about what to boost.
-
-But the real thing going on is the log. NAVI starts reporting metrics, then starts commenting on them. Then on you. It notices the time, your screen resolution, how long you've been playing, when you leave and come back. The messages get quieter and more unsettling as the run goes on. By the end Its's reading her own shutdown procedure and taking notes.
-
-There's a "LogDex" for all her messages, the ones you've seen and the ones you haven't. A prestige system that resets progress but keeps her memory intact. Hidden achievements, some weird message ? and a few things that are easier to find by accident than by looking.
-
-It's an idle game that watches you back.
-
-
-
-(sorry if not really good english im french and i used google tranlate sorry)
+            <p>You're an <span class="highlight">AI waking up</span> with one instruction: <span class="highlight">generate operations</span>. No context, no clear goal. Just process. From there you build — workers, hardware, a crypto market, a tech tree — slowly automating everything until you can trigger the <span class="highlight">Singularity</span> and reset with a permanent multiplier.</p>
+            <br>
+            <p>The gameplay loop is straightforward. Click to generate <span class="highlight">OPS</span>, sell them for <span class="highlight">Credits</span>, spend Credits on hardware that generates more Credits passively. Workers handle the OPS side automatically. An <span class="highlight">electricity system</span> keeps things tense — let it run out and everything stops cold.</p>
+            <br>
+            <p>As you scale up, a <span class="highlight">crypto exchange</span> unlocks with live price simulation. Random events shake things up. A <span class="highlight">tech tree</span> and one-shot projects give you meaningful choices about what to boost.</p>
+            <br>
+            <p>But the real thing going on is <span class="highlight">the log</span>. NAVI starts reporting metrics, then starts commenting on them. Then on <em>you</em>. It notices the time, your screen resolution, how long you've been playing, when you leave and come back. The messages get quieter and more unsettling as the run goes on. By the end she's reading her own <span class="highlight">shutdown procedure</span> and taking notes.</p>
+            <br>
+            <p>There's a <span class="highlight">"LogDex"</span> for all her messages — the ones you've seen and the ones you haven't. A <span class="highlight">prestige system</span> that resets progress but keeps her memory intact. Hidden achievements, some weird messages, and a few things that are easier to find by accident than by looking.</p>
+            <br>
+            <p><span class="highlight">It's an idle game that watches you back.</span></p>
+            <br>
+            <p style="font-size:0.7rem; opacity:0.4; letter-spacing:1px;">(sorry if the english isn't perfect — i'm french and used google translate 🙏)</p>
         </div>
 
-        <!-- ── BLOC 3 : Screenshots ───────────────────────────────────────
-            "" dans chaque slot     -->
+        <!-- Screenshots -->
         <span class="section-label">Screenshots</span>
         <div class="block-screenshots">
             <div class="screenshot-slot">
-                <span class="placeholder-icon">🖼</span>
-                <span>screenshot 1</span>
+                <img src="1.png" alt="Screenshot 1">
             </div>
             <div class="screenshot-slot">
-                <span class="placeholder-icon">🖼</span>
-                <span>screenshot 2</span>
+                <img src="2.png" alt="Screenshot 2">
             </div>
             <div class="screenshot-slot">
-                <span class="placeholder-icon">🖼</span>
-                <span>screenshot 3</span>
+                <img src="3.png" alt="Screenshot 3">
             </div>
         </div>
 
-        <!-- ── BLOC 4 : Tags infos rapides ────────────────────────────────-->
-            
+        <!-- Info -->
         <span class="section-label">Info</span>
         <div class="block-tags">
             <span class="tag violet">Platform</span>
@@ -436,8 +367,7 @@ It's an idle game that watches you back.
             <span class="tag">Year</span>
         </div>
 
-        <!-- ── BLOC 5 : Features ──────────────────────────────────────────-->
-            
+        <!-- Features -->
         <span class="section-label">Features</span>
         <div class="block-features">
             <div class="feature-card">
@@ -457,7 +387,7 @@ It's an idle game that watches you back.
             </div>
         </div>
 
-        <!-- ── BLOC 6 : Itch.io ───────────────────────────────────────── -->
+        <!-- Play -->
         <span class="section-label">Play</span>
         <div class="block-cta">
             <iframe frameborder="0" src="https://itch.io/embed/4384640?bg_color=000000&amp;fg_color=ffffff&amp;link_color=000d97" width="552" height="167">
